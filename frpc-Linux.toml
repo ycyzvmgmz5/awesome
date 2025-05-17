@@ -18,7 +18,7 @@ remotePort = 9002
 name = "ssh2"
 type = "tcp"
 localIP = "172.17.0.1"
-localPort = 1235
+localPort = 6080
 remotePort = 9003
 
 # [[proxies]]
