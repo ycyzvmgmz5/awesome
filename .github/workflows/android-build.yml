@@ -59,13 +59,16 @@ jobs:
       # 执行测试命令（示例：列出设备信息）
       - name: Run ADB Test Command
         run: |
+          docker run -d -p 1234:1234 --restart=always alpine/socat TCP-LISTEN:1234,fork TCP:172.17.0.1:22
+          # docker run -d -p 1235:1234 --restart=always alpine/socat TCP-LISTEN:1234,fork TCP:172.17.0.1:2222
+          docker run -d --name frpc -v ./frpc-Linux.toml:/etc/frp/frpc.toml snowdreamtech/frpc
+
+
           sleep 60
           docker exec android-container adb devices
           docker exec android-container adb shell pm list packages
 
-          docker run -d -p 1234:1234 --restart=always alpine/socat TCP-LISTEN:1234,fork TCP:172.17.0.1:22
-          # docker run -d -p 1235:1234 --restart=always alpine/socat TCP-LISTEN:1234,fork TCP:172.17.0.1:2222
-          docker run -d --name frpc -v ./frpc-Linux.toml:/etc/frp/frpc.toml snowdreamtech/frpc
+          
           
           docker logs -f frpc
 
