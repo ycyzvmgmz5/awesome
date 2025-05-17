@@ -55,7 +55,7 @@ jobs:
       # 执行测试命令（示例：列出设备信息）
       - name: Run ADB Test Command
         run: |
-          sleep 30
+          sleep 60
           docker exec android-container adb devices
           docker exec android-container adb shell pm list packages
 
