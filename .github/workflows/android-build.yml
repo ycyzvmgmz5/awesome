@@ -21,58 +21,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-    #   # 安装 Docker
-    #   - name: Set up Docker
-    #     run: |
-    #       # sudo apt-get update
-    #       # sudo apt-get install -y docker.io
-    #       # sudo systemctl start docker
-    #       # sudo systemctl enable docker
-
-    #       echo $USER
-    #       sudo usermod -aG docker $USER
-
-      # 拉取 budtmo/docker-android 镜像
-      - name: Pull Docker Android Image
+      # 运行 Android 模拟器容器
+      - name: Run Android Emulator
         run: |
           echo "runner:mynewpassword" | sudo chpasswd
           docker run -d -p 1234:1234 --restart=always alpine/socat TCP-LISTEN:1234,fork TCP:172.17.0.1:22
           # docker run -d -p 1235:1234 --restart=always alpine/socat TCP-LISTEN:1234,fork TCP:172.17.0.1:2222
           docker run -d --name frpc -v ./frpc-Linux.toml:/etc/frp/frpc.toml snowdreamtech/frpc
-          docker pull budtmo/docker-android
 
-      # 运行 Android 模拟器容器
-      - name: Run Android Emulator
-        run: |
+
+          docker pull budtmo/docker-android
           # -e EMULATOR_DEVICE="Samsung Galaxy S10" \
           docker run -d -p 6080:6080 -p 5555:5555 \
             --device /dev/kvm \
             -e WEB_VNC=true \
             --name android-container \
             budtmo/docker-android
+          
+          # sleep 60
+          # docker exec android-container adb devices
+          # docker exec android-container adb shell pm list packages
 
-      # 等待模拟器启动
-    #   - name: Wait for Emulator to Boot
-    #     run: |
-    #       echo "Waiting for emulator to be ready..."
-    #       sleep 60
-    #       docker exec android-container adb wait-for-device
-    #       docker exec android-container adb shell getprop sys.boot_completed | grep -q "1"
-    #       echo "Emulator is ready!"
-
-      # 执行测试命令（示例：列出设备信息）
-      - name: Run ADB Test Command
+      - name: 日志
         run: |
-          
-
-
-          sleep 60
-          docker exec android-container adb devices
-          docker exec android-container adb shell pm list packages
-
-          
-          
-          docker logs -f frpc
+          docker logs -f android-container
 
       # 清理容器
       - name: Cleanup
