@@ -1,0 +1,64 @@
+name: Android Emulator CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-android-emulator:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 安装 Docker
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          sudo usermod -aG docker $USER
+
+      # 拉取 budtmo/docker-android 镜像
+      - name: Pull Docker Android Image
+        run: |
+          docker pull budtmo/docker-android:emulator_11.0
+
+      # 运行 Android 模拟器容器
+      - name: Run Android Emulator
+        run: |
+          docker run -d -p 6080:6080 -p 5555:5555 \
+            --device /dev/kvm \
+            -e EMULATOR_DEVICE="Samsung Galaxy S10" \
+            -e WEB_VNC=true \
+            --name android-container \
+            budtmo/docker-android:emulator_11.0
+
+      # 等待模拟器启动
+      - name: Wait for Emulator to Boot
+        run: |
+          echo "Waiting for emulator to be ready..."
+          sleep 60
+          docker exec android-container adb wait-for-device
+          docker exec android-container adb shell getprop sys.boot_completed | grep -q "1"
+          echo "Emulator is ready!"
+
+      # 执行测试命令（示例：列出设备信息）
+      - name: Run ADB Test Command
+        run: |
+          docker exec android-container adb devices
+          docker exec android-container adb shell pm list packages
+
+      # 清理容器
+      - name: Cleanup
+        if: always()
+        run: |
+          docker stop android-container
+          docker rm android-container
