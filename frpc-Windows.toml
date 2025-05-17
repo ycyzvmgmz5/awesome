@@ -14,3 +14,10 @@ type = "tcp"
 localIP = "127.0.0.1"
 localPort = 1234
 remotePort = 9001
+
+[[proxies]]
+name = "rdp2"
+type = "tcp"
+localIP = "47.112.182.151"
+localPort = 1234
+remotePort = 9004
