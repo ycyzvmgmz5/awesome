@@ -21,16 +21,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 安装 Docker
-      - name: Set up Docker
-        run: |
-          # sudo apt-get update
-          # sudo apt-get install -y docker.io
-          # sudo systemctl start docker
-          # sudo systemctl enable docker
+    #   # 安装 Docker
+    #   - name: Set up Docker
+    #     run: |
+    #       # sudo apt-get update
+    #       # sudo apt-get install -y docker.io
+    #       # sudo systemctl start docker
+    #       # sudo systemctl enable docker
 
-          echo $USER
-          sudo usermod -aG docker $USER
+    #       echo $USER
+    #       sudo usermod -aG docker $USER
 
       # 拉取 budtmo/docker-android 镜像
       - name: Pull Docker Android Image
