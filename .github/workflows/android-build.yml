@@ -31,7 +31,7 @@ jobs:
       # 拉取 budtmo/docker-android 镜像
       - name: Pull Docker Android Image
         run: |
-          docker pull budtmo/docker-android:emulator_11.0
+          docker pull budtmo/docker-android
 
       # 运行 Android 模拟器容器
       - name: Run Android Emulator
@@ -41,7 +41,7 @@ jobs:
             -e EMULATOR_DEVICE="Samsung Galaxy S10" \
             -e WEB_VNC=true \
             --name android-container \
-            budtmo/docker-android:emulator_11.0
+            budtmo/docker-android
 
       # 等待模拟器启动
     #   - name: Wait for Emulator to Boot
