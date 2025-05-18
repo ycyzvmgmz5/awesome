@@ -32,15 +32,22 @@ jobs:
           # sudo apt install cpu-checker
           # kvm-ok
 
-          docker pull budtmo/docker-android
-          # -e EMULATOR_DEVICE="Samsung Galaxy S10" \
+          # docker pull budtmo/docker-android
+          # # -e EMULATOR_DEVICE="Samsung Galaxy S10" \
+          # docker run -d -p 6080:6080 -p 5555:5555 \
+          #   --device /dev/kvm \
+          #   -e EMULATOR_MEMORY=8192m \
+          #   -e WEB_VNC=true \
+          #   --name android-container \
+          #   budtmo/docker-android
+
+          docker pull huancun26/docker-android:emulator_11.0
           docker run -d -p 6080:6080 -p 5555:5555 \
             --device /dev/kvm \
-            -e EMULATOR_MEMORY=8192m \
-            -e ram=8192 \
+            -e ram=4096 \
             -e WEB_VNC=true \
             --name android-container \
-            budtmo/docker-android
+            huancun26/docker-android:emulator_11.0
           
           echo "sleep 60"
           sleep 60
