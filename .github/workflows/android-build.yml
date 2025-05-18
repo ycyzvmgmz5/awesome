@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - main2
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -32,22 +32,14 @@ jobs:
           # sudo apt install cpu-checker
           # kvm-ok
 
-          # docker pull budtmo/docker-android
-          # # -e EMULATOR_DEVICE="Samsung Galaxy S10" \
-          # docker run -d -p 6080:6080 -p 5555:5555 \
-          #   --device /dev/kvm \
-          #   -e EMULATOR_MEMORY=8192m \
-          #   -e WEB_VNC=true \
-          #   --name android-container \
-          #   budtmo/docker-android
-
-          docker pull huancun26/docker-android:emulator_11.0
+          docker pull budtmo/docker-android:genymotion
+          # -e EMULATOR_DEVICE="Samsung Galaxy S10" \
           docker run -d -p 6080:6080 -p 5555:5555 \
             --device /dev/kvm \
-            -e ram=12288 \
+            -e EMULATOR_MEMORY=8192m \
             -e WEB_VNC=true \
             --name android-container \
-            huancun26/docker-android:emulator_11.0
+            budtmo/docker-android:genymotion
           
           echo "sleep 60"
           sleep 60
