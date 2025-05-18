@@ -47,11 +47,12 @@ jobs:
       - name: 日志
         run: |
           # docker exec android-container cat device_status
-          sleep 30
-          docker exec android-container cat device_status
-          sleep 30
-          docker exec android-container cat device_status
-          sleep 600
+          # sleep 30
+          # docker exec android-container cat device_status
+          # sleep 30
+          # docker exec android-container cat device_status
+          echo "sleep 60"
+          sleep 60
           docker logs -f android-container
 
       # 清理容器
