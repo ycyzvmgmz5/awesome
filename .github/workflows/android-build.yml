@@ -40,9 +40,9 @@ jobs:
             --name android-container \
             budtmo/docker-android
           
-          # sleep 60
-          # docker exec android-container adb devices
-          # docker exec android-container adb shell pm list packages
+          echo "sleep 60"
+          sleep 60
+          docker exec android-container adb logcat Unity:D *:S
 
       - name: 日志
         run: |
@@ -51,9 +51,10 @@ jobs:
           # docker exec android-container cat device_status
           # sleep 30
           # docker exec android-container cat device_status
-          echo "sleep 60"
+          # echo "sleep 60"
           sleep 60
-          docker logs -f android-container
+
+          # docker logs -f android-container
 
       # 清理容器
       - name: Cleanup
