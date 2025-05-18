@@ -46,7 +46,7 @@ jobs:
 
       - name: 日志
         run: |
-          docker exec android-container cat device_status
+          # docker exec android-container cat device_status
           sleep 30
           docker exec android-container cat device_status
           sleep 30
