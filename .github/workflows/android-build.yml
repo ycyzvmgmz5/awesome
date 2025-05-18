@@ -44,7 +44,7 @@ jobs:
           docker pull huancun26/docker-android:emulator_11.0
           docker run -d -p 6080:6080 -p 5555:5555 \
             --device /dev/kvm \
-            -e ram=4096 \
+            -e ram=8192 \
             -e WEB_VNC=true \
             --name android-container \
             huancun26/docker-android:emulator_11.0
